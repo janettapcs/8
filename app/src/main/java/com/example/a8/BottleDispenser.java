@@ -1,6 +1,13 @@
 package com.example.a8;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BottleDispenser {
     private static final BottleDispenser ourInstance = new BottleDispenser();
@@ -10,12 +17,13 @@ public class BottleDispenser {
     }
 
     private int pullolkm;
-
-
-
     private double rahaa;
+    private Context context;
 
-
+    public void setContext(Context context) {
+        this.context = context;
+    }
+    
     private ArrayList<Bottle> pullo_list;
 
     private BottleDispenser() {
@@ -46,6 +54,7 @@ public class BottleDispenser {
             rahaa -= pullo.getHinta();
             pullolkm -= 1;
             //pullo_list.remove(lkm);
+            this.kuitti(pullo);
             return true;
         } else {
             System.out.println("Syötä rahaa ensin!");
@@ -62,6 +71,27 @@ public class BottleDispenser {
         return pullo_list;
     }
 
+    public void kuitti(Bottle pullo) {
 
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
+        String tiedosto = "kuitti_" + formatter.format(date);
+
+        try {
+
+            OutputStreamWriter ow = new OutputStreamWriter(this.context.openFileOutput(tiedosto,
+                    Context.MODE_PRIVATE));
+
+            ow.write("Kuitti ostoksesta\n");
+            ow.write("Ostettu pullo: " + pullo.getNimi() + "\n");
+            ow.write("Koko: " + pullo.getKoko() + "\n");
+            ow.write("Hinta: " + pullo.getHinta() + "\n");
+            ow.close();
+
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
+
+    }
 
 }

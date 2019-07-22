@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         text2 = findViewById(R.id.seekBarText);
         rahamaara = findViewById(R.id.moneyAmount);
 
+        automaatti.setContext(getApplicationContext());
+
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         automaatti.palautaRahat();
         rahamaara.setText("Rahaa tällä hetkellä: " + automaatti.getRahaa());
     }
+
+
 }
 
 
